@@ -1,0 +1,49 @@
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: fit-content;
+  padding-top: 76px;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    padding-top: 36px;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    width: 312px;
+    height: 278px;
+    position: absolute;
+    background-image: url("@/assets/images/bg-triangle.svg");
+    background-size: cover;
+    z-index: -1;
+
+    @media (max-width: 768px) {
+      width: 250px;
+      height: 223px;
+    }
+
+    @media (max-width: 480px) {
+      width: 180px;
+      height: 160px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    justify-content: center;
+    gap: 92px;
+
+    @media (max-width: 480px) {
+      gap: 60px;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 44px;
+    }
+  }
+}
