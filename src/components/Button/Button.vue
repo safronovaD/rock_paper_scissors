@@ -39,7 +39,8 @@ const props = defineProps({
   }
 
   &--filled {
-    max-width: 232px;
+    width: 232px;
+    max-width: unset;
     padding: 16px 8px;
     font-size: 20px;
     background-color: white;

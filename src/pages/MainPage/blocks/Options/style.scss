@@ -1,15 +1,23 @@
 .options {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  column-gap: 92px;
+  row-gap: 44px;
+  flex-wrap: wrap;
   position: relative;
-  width: fit-content;
+  max-width: 520px;
   padding-top: 76px;
   z-index: 1;
 
   @media (max-width: 768px) {
     padding-top: 36px;
+  }
+
+  @media (max-width: 480px) {
+    column-gap: 60px;
+    max-width: 260px;
   }
 
   &:after {
@@ -30,20 +38,6 @@
     @media (max-width: 480px) {
       width: 180px;
       height: 160px;
-    }
-  }
-
-  &__row {
-    display: flex;
-    justify-content: center;
-    gap: 92px;
-
-    @media (max-width: 480px) {
-      gap: 60px;
-    }
-
-    &:not(:last-child) {
-      margin-bottom: 44px;
     }
   }
 }

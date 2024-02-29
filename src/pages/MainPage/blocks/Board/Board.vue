@@ -1,12 +1,19 @@
 <template>
   <div class="board">
     <img class="board__logo" src="@/assets/images/logo.svg"/>
-    <Badge/>
+    <Badge :count="score" :title="'Счет'"/>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Badge from "@/components/Badge/Badge";
+
+const props = defineProps({
+  score: {
+    type: Number,
+    required: true
+  }
+});
 </script>
 
 <style lang="scss" scoped>

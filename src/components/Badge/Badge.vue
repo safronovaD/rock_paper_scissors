@@ -1,9 +1,22 @@
 <template>
 <div class="badge">
-  <span class="badge__title bold">СЧЕТ</span>
-  <span class="badge__count bold">0</span>
+  <span class="badge__title bold">{{title}}</span>
+  <span class="badge__count bold">{{count}}</span>
 </div>
 </template>
+
+<script lang="ts" setup>
+const props = defineProps({
+  count: {
+    type: Number,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  }
+});
+</script>
 
 <style lang="scss" scoped>
 .badge {
@@ -22,6 +35,7 @@
   &__title {
     font-size: 28px;
     color: #4865f4;
+    text-transform: uppercase;
 
     @media (max-width: 768px) {
       font-size: 16px;

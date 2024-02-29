@@ -1,15 +1,7 @@
 <template>
   <div class="options">
-    <div class="options__row">
-      <div class="option__wrapper">
-        <Option :option-variant="paper"/>
-      </div>
-      <div class="option__wrapper">
-        <Option :option-variant="scissors"/>
-      </div>
-    </div>
-    <div class="options__row">
-      <Option :option-variant="rock"/>
+    <div class="option__wrapper" v-for="option in optionVariants">
+      <Option :option-variant="option" @click="emits('selected', option)"/>
     </div>
   </div>
 </template>
@@ -17,7 +9,9 @@
 <script lang="ts" setup>
 import Option from "@/pages/MainPage/blocks/Options/Option/Option.vue";
 
-import {paper, scissors, rock} from "./Option/optionsVariants";
+import {optionVariants} from "./Option/optionsVariants";
+
+const emits = defineEmits(['selected']);
 </script>
 
 <style lang="scss" src="./style.scss" scoped></style>
