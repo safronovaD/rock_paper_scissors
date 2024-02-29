@@ -23,7 +23,7 @@ import Result from "@/pages/MainPage/blocks/Result/Result.vue";
 import Button from "@/components/Button/Button.vue";
 import ModalBonus from "@/pages/MainPage/blocks/ModalBonus/ModalBonus.vue";
 import ModalRules from "@/pages/MainPage/blocks/ModalRules/ModalRules.vue";
-import {ref, reactive} from 'vue';
+import {ref, reactive, onBeforeMount} from 'vue';
 import {tOptionVariant} from "@/pages/MainPage/blocks/Options/Option/optionsVariants";
 import {GameIns} from "@/pages/MainPage/Game";
 
@@ -52,7 +52,16 @@ function playRound(userChoice: tOptionVariant): void {
   Game.computerChoice = GameIns.getComputerChoice();
   Game.winner = GameIns.getWinner(Game.userChoice, Game.computerChoice);
   Game.score = GameIns.getNewScore(Game.winner, Game.score);
+
+  localStorage.setItem('gameScore', JSON.stringify(Game.score));
 }
+
+onBeforeMount(() => {
+  const score = localStorage.getItem('gameScore');
+  if(typeof score === 'string') {
+    Game.score = JSON.parse(score);
+  }
+});
 </script>
 
 <style lang="scss" src="./style.scss" scoped></style>
