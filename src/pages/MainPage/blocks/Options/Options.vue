@@ -1,6 +1,6 @@
 <template>
   <div class="options">
-    <div class="option__wrapper" v-for="option in optionVariants">
+    <div class="option__wrapper" v-for="option in optionVariants" :key="option.name">
       <Option :option-variant="option" @click="emits('selected', option)"/>
     </div>
   </div>
