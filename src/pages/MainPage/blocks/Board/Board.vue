@@ -7,13 +7,11 @@
 
 <script lang="ts" setup>
 import Badge from "@/components/Badge/Badge";
+import {useStore} from "vuex";
+import {computed} from "vue";
 
-const props = defineProps({
-  score: {
-    type: Number,
-    required: true
-  }
-});
+const store = useStore(),
+    score = computed((): number => store.state.score);
 </script>
 
 <style lang="scss" scoped>

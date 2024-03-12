@@ -2,8 +2,8 @@
 <div class="result">
   <div class="result__choice">
     <h2 class="result__subtitle">Вы выбрали</h2>
-    <div :class="['result__main-pulse', {'result__main-pulse--visible': winner === 'User'}]">
-      <div :class="['result__additional-pulse', {'result__additional-pulse--visible': winner === 'User'}]">
+    <div :class="['result__main-pulse', {'result__main-pulse--visible': winner === GameWinners.user}]">
+      <div :class="['result__additional-pulse', {'result__additional-pulse--visible': winner === GameWinners.user}]">
         <Option :option-variant="userChoice" :is-active-option="false"/>
       </div>
     </div>
@@ -14,8 +14,8 @@
   </div>
   <div class="result__choice">
     <h2 class="result__subtitle">Компьютер <br>выбрал</h2>
-    <div :class="['result__main-pulse', {'result__main-pulse--visible': winner === 'Computer'}]">
-      <div :class="['result__additional-pulse', {'result__additional-pulse--visible': winner === 'Computer'}]">
+    <div :class="['result__main-pulse', {'result__main-pulse--visible': winner === GameWinners.computer}]">
+      <div :class="['result__additional-pulse', {'result__additional-pulse--visible': winner === GameWinners.computer}]">
         <Option :option-variant="computerChoice" :is-active-option="false"/>
       </div>
     </div>
@@ -26,27 +26,22 @@
 <script lang="ts" setup>
 import Option from "@/pages/MainPage/blocks/Options/Option/Option.vue";
 import Button from "@/components/Button/Button.vue";
-
-const props = defineProps({
-  winner: {
-    type: String
-  },
-  userChoice: {
-    type: Object,
-    required: true
-  },
-  computerChoice: {
-    type: Object,
-    required: true
-  },
-});
+import {useStore} from "vuex";
+import {computed} from "vue";
+import {GameWinners} from "@/pages/MainPage/Game";
+import {tOptionVariant} from "@/pages/MainPage/blocks/Options/Option/optionsVariants";
 
 const emits = defineEmits(['playAgain']);
 
+const store = useStore(),
+    winner = computed((): GameWinners => store.state.winner),
+    userChoice = computed((): tOptionVariant => store.state.userChoice),
+    computerChoice = computed((): tOptionVariant => store.state.computerChoice);
+
 function getResultText(): string {
-  if(props.winner === 'User') {
+  if (winner.value === GameWinners.user) {
     return 'Вы <br>выиграли';
-  } else if(props.winner === 'Computer') {
+  } else if (winner.value === GameWinners.computer) {
     return 'Вы <br>проиграли';
   } else {
     return 'Ничья';

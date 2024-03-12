@@ -2,9 +2,16 @@
   <div class="main-page">
     <div class="main-page__container container">
       <div class="main-page__content">
-        <Board class="main-page__board" :score="Game.score"/>
-        <Options v-if="currentGameStep === GameSteps.choice" class="main-page__options" @selected="playRound"/>
-        <Result v-else :winner="Game.winner" :user-choice="Game.userChoice" :computer-choice="Game.computerChoice" @playAgain="currentGameStep = GameSteps.choice"/>
+        <Board class="main-page__board"/>
+        <Options
+            v-if="currentGameStep === GameSteps.choice"
+            class="main-page__options"
+            @selected="currentGameStep = GameSteps.result"
+        />
+        <Result
+            v-else
+            @playAgain="currentGameStep = GameSteps.choice"
+        />
       </div>
       <div class="main-page__controls">
         <Button :type="'unfilled'" :text="'Бонус'" @click="isVisibleModalBonus = true"/>
@@ -23,48 +30,26 @@ import Result from "@/pages/MainPage/blocks/Result/Result.vue";
 import Button from "@/components/Button/Button.vue";
 import ModalBonus from "@/pages/MainPage/blocks/ModalBonus/ModalBonus.vue";
 import ModalRules from "@/pages/MainPage/blocks/ModalRules/ModalRules.vue";
-import {ref, reactive, onBeforeMount} from 'vue';
-import {tOptionVariant} from "@/pages/MainPage/blocks/Options/Option/optionsVariants";
-import {GameIns} from "@/pages/MainPage/Game";
-
-type tGame = {
-  winner: string | null,
-  score: number,
-  userChoice: tOptionVariant | null,
-  computerChoice: tOptionVariant | null
-};
-
-let Game = reactive<tGame>({
-  winner: null,
-  score: 0,
-  userChoice: null,
-  computerChoice:  null
-});
+import {ref, onBeforeMount, computed} from 'vue';
+import {useStore} from 'vuex'
 
 const enum GameSteps {
   choice = 'Choice',
   result = 'Result'
 };
 
-let isVisibleModalRules = ref<boolean>(false),
-    isVisibleModalBonus = ref<boolean>(false),
-    currentGameStep = ref<GameSteps>(GameSteps.choice);
+const store = useStore(),
+    setScore = (score: number) =>
+        store.commit('setScore', score);
 
-function playRound(userChoice: tOptionVariant): void {
-  currentGameStep.value = GameSteps.result;
-
-  Game.userChoice = userChoice;
-  Game.computerChoice = GameIns.getComputerChoice();
-  Game.winner = GameIns.getWinner(Game.userChoice, Game.computerChoice);
-  Game.score = GameIns.getNewScore(Game.winner, Game.score);
-
-  localStorage.setItem('gameScore', JSON.stringify(Game.score));
-}
+let currentGameStep = ref<GameSteps>(GameSteps.choice),
+    isVisibleModalRules = ref<boolean>(false),
+    isVisibleModalBonus = ref<boolean>(false);
 
 onBeforeMount(() => {
   const score = localStorage.getItem('gameScore');
   if (typeof score === 'string') {
-    Game.score = JSON.parse(score);
+    setScore(JSON.parse(score));
   }
 });
 </script>
