@@ -3,8 +3,8 @@
     <div class="main-page__container container">
       <div class="main-page__content">
         <Board class="main-page__board" :score="Game.score"/>
-        <Options v-if="Game.gameStep === 'Choice'" class="main-page__options" @selected="playRound"/>
-        <Result v-else :winner="Game.winner" :user-choice="Game.userChoice" :computer-choice="Game.computerChoice" @playAgain="Game.gameStep = 'Choice';"/>
+        <Options v-if="currentGameStep === GameSteps.choice" class="main-page__options" @selected="playRound"/>
+        <Result v-else :winner="Game.winner" :user-choice="Game.userChoice" :computer-choice="Game.computerChoice" @playAgain="currentGameStep = GameSteps.choice"/>
       </div>
       <div class="main-page__controls">
         <Button :type="'unfilled'" :text="'Бонус'" @click="isVisibleModalBonus = true"/>
@@ -31,23 +31,28 @@ type tGame = {
   winner: string | null,
   score: number,
   userChoice: tOptionVariant | null,
-  computerChoice: tOptionVariant | null,
-  gameStep: string
+  computerChoice: tOptionVariant | null
 };
 
 let Game = reactive<tGame>({
   winner: null,
   score: 0,
   userChoice: null,
-  computerChoice:  null,
-  gameStep: 'Choice'
+  computerChoice:  null
 });
 
+const enum GameSteps {
+  choice = 'Choice',
+  result = 'Result'
+};
+
 let isVisibleModalRules = ref<boolean>(false),
-  isVisibleModalBonus = ref<boolean>(false);
+    isVisibleModalBonus = ref<boolean>(false),
+    currentGameStep = ref<GameSteps>(GameSteps.choice);
 
 function playRound(userChoice: tOptionVariant): void {
-  Game.gameStep = 'Result';
+  currentGameStep.value = GameSteps.result;
+
   Game.userChoice = userChoice;
   Game.computerChoice = GameIns.getComputerChoice();
   Game.winner = GameIns.getWinner(Game.userChoice, Game.computerChoice);
@@ -58,7 +63,7 @@ function playRound(userChoice: tOptionVariant): void {
 
 onBeforeMount(() => {
   const score = localStorage.getItem('gameScore');
-  if(typeof score === 'string') {
+  if (typeof score === 'string') {
     Game.score = JSON.parse(score);
   }
 });
