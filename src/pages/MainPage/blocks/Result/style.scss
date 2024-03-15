@@ -42,14 +42,14 @@
     margin: 12px auto 0 auto;
   }
 
-  &__main-pulse,
-  &__additional-pulse {
+  &__pulse {
     &--visible {
       position: relative;
       z-index: 0;
 
       &:before,
       &:after {
+        content: '';
         position: absolute;
         background-color: lightgrey;
         left: 0px;
@@ -61,30 +61,10 @@
         animation: pulse 3s linear infinite;
         z-index: -1;
       }
-    }
-  }
-
-  &__main-pulse {
-    &--visible {
-      &:before,
-      &:after {
-        content: '';
-      }
 
       &:after {
-        animation-delay: 1s;
+        animation-delay: 1.5s;
       }
     }
-
-  }
-
-  &__additional-pulse {
-    &--visible {
-      &:before {
-        content: '';
-        animation-delay: 2s;
-      }
-    }
-
   }
 }

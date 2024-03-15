@@ -2,10 +2,8 @@
 <div class="result">
   <div class="result__choice">
     <h2 class="result__subtitle">Вы выбрали</h2>
-    <div :class="['result__main-pulse', {'result__main-pulse--visible': winner === GameWinners.user}]">
-      <div :class="['result__additional-pulse', {'result__additional-pulse--visible': winner === GameWinners.user}]">
-        <Option :option-variant="userChoice" :is-active-option="false"/>
-      </div>
+    <div :class="['result__pulse', {'result__pulse--visible': winner === GameWinners.user}]">
+      <Option :option-variant="userChoice" :is-active-option="false"/>
     </div>
   </div>
   <div class="result__outcome">
@@ -14,10 +12,8 @@
   </div>
   <div class="result__choice">
     <h2 class="result__subtitle">Компьютер <br>выбрал</h2>
-    <div :class="['result__main-pulse', {'result__main-pulse--visible': winner === GameWinners.computer}]">
-      <div :class="['result__additional-pulse', {'result__additional-pulse--visible': winner === GameWinners.computer}]">
-        <Option :option-variant="computerChoice" :is-active-option="false"/>
-      </div>
+    <div :class="['result__pulse', {'result__pulse--visible': winner === GameWinners.computer}]">
+      <Option :option-variant="computerChoice" :is-active-option="false"/>
     </div>
   </div>
 </div>
